@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>X AI Auto Post Generator</title>
+</head>
+<body>
+
+    <h1>X AI Auto Post Generator</h1>
+
+    <label>Paragraph:</label><br>
+    <textarea id="paragraph" rows="6" cols="60"></textarea><br><br>
+
+    <label>Hashtags (you write them):</label><br>
+    <input type="text" id="hashtags"><br><br>
+
+    <label>Emojis (optional):</label><br>
+    <input type="text" id="emojis"><br><br>
+
+    <label>Number (optional):</label><br>
+    <input type="text" id="number"><br><br>
+
+    <label>Tone (funny / serious / dramatic):</label><br>
+    <input type="text" id="tone"><br><br>
+
+    <button onclick="generatePosts()">Generate 100 Posts</button>
+
+    <h2>Generated Posts:</h2>
+    <div id="output"></div>
+
+<script>
+function generatePosts() {
+    const paragraph = document.getElementById("paragraph").value;
+    const hashtags = document.getElementById("hashtags").value;
+    const emojis = document.getElementById("emojis").value;
+    const number = document.getElementById("number").value;
+    const tone = document.getElementById("tone").value;
+
+    let output = "";
+
+    for (let i = 1; i <= 100; i++) {
+        output += "<p>" +
+            paragraph + " | Tone: " + tone +
+            " " + emojis +
+            " " + hashtags +
+            " " + number +
+            "</p>";
+    }
+
+    document.getElementById("output").innerHTML = output;
+}
+</script>
+
+</body>
+</html>
