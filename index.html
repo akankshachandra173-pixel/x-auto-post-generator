@@ -1,54 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>X AI Auto Post Generator</title>
+  <title>X Auto Post Generator</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    textarea, input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+    }
+    button {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      cursor: pointer;
+    }
+    #output {
+      white-space: pre-wrap;
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>X AI Auto Post Generator</h1>
+<h2>X Auto Post Generator</h2>
 
-    <label>Paragraph:</label><br>
-    <textarea id="paragraph" rows="6" cols="60"></textarea><br><br>
+<label>Write your topic:</label>
+<textarea id="topic" rows="3"></textarea>
 
-    <label>Hashtags (you write them):</label><br>
-    <input type="text" id="hashtags"><br><br>
+<label>Hashtags (you write them):</label>
+<input type="text" id="hashtags" placeholder="#CatForCashEP4 #BL">
 
-    <label>Emojis (optional):</label><br>
-    <input type="text" id="emojis"><br><br>
+<label>Number (optional):</label>
+<input type="text" id="number">
 
-    <label>Number (optional):</label><br>
-    <input type="text" id="number"><br><br>
+<label>Emoji (optional):</label>
+<input type="text" id="emoji">
 
-    <label>Tone (funny / serious / dramatic):</label><br>
-    <input type="text" id="tone"><br><br>
+<button onclick="generatePost()">Generate Post</button>
 
-    <button onclick="generatePosts()">Generate 100 Posts</button>
+<div id="output"></div>
 
-    <h2>Generated Posts:</h2>
-    <div id="output"></div>
+<button onclick="postToX()">🚀 Post to X</button>
 
 <script>
-function generatePosts() {
-    const paragraph = document.getElementById("paragraph").value;
-    const hashtags = document.getElementById("hashtags").value;
-    const emojis = document.getElementById("emojis").value;
-    const number = document.getElementById("number").value;
-    const tone = document.getElementById("tone").value;
+let finalPost = "";
 
-    let output = "";
+function generatePost() {
+  let topic = document.getElementById("topic").value;
+  let hashtags = document.getElementById("hashtags").value;
+  let number = document.getElementById("number").value;
+  let emoji = document.getElementById("emoji").value;
 
-    for (let i = 1; i <= 100; i++) {
-        output += "<p>" +
-            paragraph + " | Tone: " + tone +
-            " " + emojis +
-            " " + hashtags +
-            " " + number +
-            "</p>";
-    }
+  const templates = [
+    `I can't stop thinking about ${topic}.`,
+    `${topic} is living in my mind rent free.`,
+    `Why is ${topic} this powerful?`,
+    `${topic} deserves more attention.`,
+    `Still not over ${topic}.`
+  ];
 
-    document.getElementById("output").innerHTML = output;
+  let random = templates[Math.floor(Math.random() * templates.length)];
+
+  finalPost = random + " " + (number ? number : "") + " " + (emoji ? emoji : "") + "\n\n" + hashtags;
+
+  document.getElementById("output").innerText = finalPost;
+}
+
+function postToX() {
+  if (!finalPost) {
+    alert("Generate post first!");
+    return;
+  }
+
+  let twitterURL = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(finalPost);
+  window.open(twitterURL, "_blank");
 }
 </script>
 
 </body>
 </html>
+
