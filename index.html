@@ -1,91 +1,206 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>X Auto Post Generator</title>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    textarea, input {
-      width: 100%;
-      margin: 10px 0;
-      padding: 8px;
-    }
-    button {
-      padding: 10px;
-      margin: 5px 0;
-      width: 100%;
-      cursor: pointer;
-    }
-    #output {
-      white-space: pre-wrap;
-      background: #f4f4f4;
-      padding: 10px;
-      margin-top: 10px;
-    }
-  </style>
+    <title>X Auto Post Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #302b63, #24243e);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff4ecd;
+        }
+
+        textarea, input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #ff4ecd;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ff1fab;
+        }
+
+        .topic-btn {
+            background-color: #4e9cff;
+        }
+
+        .topic-btn:hover {
+            background-color: #2f7de1;
+        }
+
+        #output {
+            background: white;
+            color: black;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 
-<h2>X Auto Post Generator</h2>
+<h1>✨ X Auto Post Generator ✨</h1>
 
-<label>Write your topic:</label>
-<textarea id="topic" rows="3"></textarea>
+<h3>Select Topic:</h3>
 
-<label>Hashtags (you write them):</label>
-<input type="text" id="hashtags" placeholder="#CatForCashEP4 #BL">
+<button class="topic-btn" onclick="setTopic('romance')">Romance Spark</button>
+<button class="topic-btn" onclick="setTopic('chaos')">Cats & Cafe Chaos</button>
+<button class="topic-btn" onclick="setTopic('chemistry')">FirstKhaotung Chemistry</button>
+<button class="topic-btn" onclick="setTopic('jealousy')">Jealousy & Care</button>
+<button class="topic-btn" onclick="setTopic('noticing')">Art of Noticing</button>
+<button class="topic-btn" onclick="setTopic('realisation')">Lynx Realisation</button>
+<button class="topic-btn" onclick="setTopic('actor')">Actor Spotlight</button>
+<button class="topic-btn" onclick="setTopic('unspoken')">Unspoken Moment</button>
+<button class="topic-btn" onclick="setTopic('parallel')">Symbolisation</button>
+<button class="topic-btn" onclick="setTopic('wait')">Wait for Next Ep</button>
 
-<label>Number (optional):</label>
-<input type="text" id="number">
+<h3>Optional Custom Paragraph:</h3>
+<textarea id="paragraph" placeholder="Write your own paragraph (optional)"></textarea>
 
-<label>Emoji (optional):</label>
-<input type="text" id="emoji">
+<h3>Hashtag (optional):</h3>
+<input type="text" id="hashtag" placeholder="#CatForCashEP4">
 
-<button onclick="generatePost()">Generate Post</button>
+<h3>Emoji (optional):</h3>
+<input type="text" id="emoji" placeholder="🔥">
+
+<h3>Number Posts? (leave empty if no numbering)</h3>
+<input type="text" id="number" placeholder="yes">
+
+<h3>How many posts?</h3>
+<input type="number" id="count" value="3">
+
+<br>
+<button onclick="generatePost()">Generate Posts</button>
 
 <div id="output"></div>
 
-<button onclick="postToX()">🚀 Post to X</button>
-
 <script>
-let finalPost = "";
+
+let selectedTopic = "";
+
+function setTopic(topic) {
+    selectedTopic = topic;
+}
+
+function randomItem(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
 function generatePost() {
-  let topic = document.getElementById("topic").value;
-  let hashtags = document.getElementById("hashtags").value;
-  let number = document.getElementById("number").value;
-  let emoji = document.getElementById("emoji").value;
 
-  const templates = [
-    `I can't stop thinking about ${topic}.`,
-    `${topic} is living in my mind rent free.`,
-    `Why is ${topic} this powerful?`,
-    `${topic} deserves more attention.`,
-    `Still not over ${topic}.`
-  ];
+    const hashtag = document.getElementById("hashtag").value.trim();
+    const emoji = document.getElementById("emoji").value.trim();
+    const numberOption = document.getElementById("number").value.trim();
+    const paragraph = document.getElementById("paragraph").value.trim();
+    const count = parseInt(document.getElementById("count").value) || 1;
 
-  let random = templates[Math.floor(Math.random() * templates.length)];
+    const templates = {
+        romance: [
+            "The way Tiger looks at Lynx is illegal.",
+            "That eye contact?? I can't breathe.",
+            "Tiger is SO gone for Lynx.",
+            "Romance is romancing HARD."
+        ],
+        chaos: [
+            "Good boy Jiro for that cup splash.",
+            "Cafe chaos but make it adorable.",
+            "Cats running the business better than humans.",
+            "That cafe scene was pure chaos energy."
+        ],
+        chemistry: [
+            "Can't imagine anyone as TigerLynx except FirstKhaotung.",
+            "Their chemistry is unreal.",
+            "Acting level?? Oscar worthy.",
+            "FirstKhaotung never disappoint."
+        ],
+        jealousy: [
+            "Tiger jealous but still caring?? My heart.",
+            "That soft jealousy hits different.",
+            "Protective Tiger era activated.",
+            "He jealous but he in love."
+        ],
+        noticing: [
+            "Tiger noticed Lynx changed fragrance??",
+            "It's the small details that matter.",
+            "He pays attention to EVERYTHING.",
+            "Soft caring boyfriend energy."
+        ],
+        realisation: [
+            "Lynx realised he's falling in love.",
+            "That realisation scene was beautiful.",
+            "You can SEE it in his eyes.",
+            "He's in love and he knows it."
+        ],
+        actor: [
+            "They are amazing artists.",
+            "Acting so natural and emotional.",
+            "Every expression hits perfectly.",
+            "They carry the whole show."
+        ],
+        unspoken: [
+            "The eyes of Tiger will kill me.",
+            "That silence said everything.",
+            "Unspoken tension is LOUD.",
+            "No dialogue but full emotion."
+        ],
+        parallel: [
+            "That jealousy scene reminded me of SandRay era.",
+            "The parallels are insane.",
+            "History repeating in the best way.",
+            "Symbolism level 100."
+        ],
+        wait: [
+            "Can't wait for Tuesday.",
+            "Next episode please NOW.",
+            "The wait is painful.",
+            "Tuesday hurry up."
+        ]
+    };
 
-  finalPost = random + " " + (number ? number : "") + " " + (emoji ? emoji : "") + "\n\n" + hashtags;
+    if (!selectedTopic && !paragraph) {
+        alert("Please select a topic or write a paragraph!");
+        return;
+    }
 
-  document.getElementById("output").innerText = finalPost;
+    let result = "";
+
+    for (let i = 1; i <= count; i++) {
+
+        let text = paragraph || randomItem(templates[selectedTopic]);
+        let post = text;
+
+        if (emoji) post += " " + emoji;
+        if (numberOption) post += " " + i;
+        if (hashtag) post += " " + hashtag;
+
+        result += post + "\n\n";
+    }
+
+    document.getElementById("output").innerText = result;
 }
 
-function postToX() {
-  if (!finalPost) {
-    alert("Generate post first!");
-    return;
-  }
-
-  let twitterURL = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(finalPost);
-  window.open(twitterURL, "_blank");
-}
 </script>
 
 </body>
 </html>
-
