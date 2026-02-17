@@ -1,122 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐯 FK QuickPost v3 - One Click to X</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #f8f9fa; }
-        button { background: #1da1f2; color: white; padding: 15px 30px; border: none; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer; margin: 15px 0; width: 100%; }
-        button:hover { background: #0d8bd9; }
-        button.post-btn { background: #00ff88; font-size: 22px; }
-        button.post-btn:hover { background: #00cc66; }
-        textarea { width: 100%; height: 300px; font-size: 14px; padding: 10px; border: 2px solid #1da1f2; border-radius: 8px; margin: 10px 0; }
-        .note { background: #e7f3ff; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 5px solid #1da1f2; }
-        .topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        label { font-weight: 500; }
-        h1 { color: #1da1f2; text-align: center; }
-        #currentPost { background: #f0f8ff; padding: 15px; border-radius: 8px; margin: 15px 0; font-family: monospace; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FK QuickPost Ultimate</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: linear-gradient(135deg,#141e30,#243b55);
+    color: white;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.container{
+    background: rgba(255,255,255,0.08);
+    padding:25px;
+    border-radius:15px;
+}
+
+.topic-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+}
+
+label{
+    background:rgba(255,255,255,0.1);
+    padding:8px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    background:#00ffb3;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00cc8f;
+}
+
+textarea{
+    width:100%;
+    height:100px;
+    margin-top:10px;
+    border-radius:8px;
+    padding:10px;
+}
+
+.preview{
+    margin-top:20px;
+    padding:15px;
+    background:rgba(0,0,0,0.4);
+    border-radius:10px;
+    font-family:monospace;
+}
+</style>
 </head>
+
 <body>
-    <h1>🐯 FirstKhaoTung → X One-Click Poster</h1>
-    
-    <div class="note">
-        ✅ <strong>NO hashtags unless YOU check box</strong><br>
-        🚀 <strong>One click = Random post → Opens X compose window</strong>
-    </div>
 
-    <div style="text-align: center;">
-        <div class="topic-grid">
-            <label><input type="checkbox" value="romance" checked> 💕 Romance</label>
-            <label><input type="checkbox" value="cafe" checked> 🐱 Cafe Chaos</label>
-            <label><input type="checkbox" value="chemistry" checked> ⚗️ Chemistry</label>
-            <label><input type="checkbox" value="jealousy" checked> 😤 Jealousy</label>
-            <label><input type="checkbox" value="noticing" checked> 👃 Noticing</label>
-            <label><input type="checkbox" value="realisation" checked> 💡 Realisation</label>
-            <label><input type="checkbox" value="spotlight" checked> ⭐ Spotlight</label>
-            <label><input type="checkbox" value="unspoken" checked> 👀 Unspoken</label>
-            <label><input type="checkbox" value="symbol" checked> 🔗 Symbolism</label>
-            <label><input type="checkbox" value="wait" checked> ⏳ Next Ep</label>
-        </div>
-        
-        <label style="display: block; margin: 15px 0;">
-            <input type="checkbox" id="addHashtags"> ✅ Add my hashtags (#FirstKhaoTung #TigerLynx)
-        </label>
-    </div>
+<h1>🐯 FirstKhaoTung QuickPost Ultimate</h1>
 
-    <button onclick="generate100()">🎲 Generate 100 (Copy All)</button>
-    <button class="post-btn" onclick="postToX()">🚀 ONE CLICK → POST TO X</button>
+<div class="container">
 
-    <div id="currentPost">Click any button to see current post preview here 👆</div>
-    <textarea id="output" placeholder="100 posts here (or use One-Click button)"></textarea>
+<h3>Select Topic</h3>
+<div class="topic-grid">
+<label><input type="radio" name="topic" value="romance" checked> Romance Spark</label>
+<label><input type="radio" name="topic" value="cafe"> Cats & Cafe Chaos</label>
+<label><input type="radio" name="topic" value="chemistry"> FirstKhaotung Chemistry</label>
+<label><input type="radio" name="topic" value="jealousy"> Jealousy & Care</label>
+<label><input type="radio" name="topic" value="noticing"> Art of Noticing</label>
+<label><input type="radio" name="topic" value="realisation"> Lynx Realisation</label>
+<label><input type="radio" name="topic" value="spotlight"> Actor Spotlight</label>
+<label><input type="radio" name="topic" value="unspoken"> Unspoken Moments</label>
+<label><input type="radio" name="topic" value="symbol"> Symbolisation & Parallel</label>
+<label><input type="radio" name="topic" value="wait"> Wait for Next Episode</label>
+</div>
 
-    <script>
-        const topics = {
-            romance: [["the way tiger looks at lynx I can't","tiger's gaze melts me","lynx eyes meet tiger 💕"],["heart exploding","sparks flying","romance overload 😍"]],
-            cafe: [["good boy Jiro cup splash","Jiro's cafe chaos","cat king Jiro splashing"],["adorable mess","cutest chaos","purrfect splash 😂"]],
-            chemistry: [["only FirstKhaoTung as TigerLynx","perfect TigerLynx duo","can't imagine anyone else"],["chemistry unmatched","acting perfection","OTP forever 🔥"]],
-            jealousy: [["tiger jealous but cares for lynx","Tiger protects Lynx","jealousy = pure care"],["heart flutter","sweet possessiveness","care in jealousy 🥺"]],
-            noticing: [["tiger notices lynx fragrance","Tiger spots new scent","small details Tiger sees"],["thoughtful king","attentive vibes","scent change caught 😲"]],
-            realisation: [["lynx realised tiger loves him","Lynx gets Tiger's love","love dawns on Lynx"],["falling hard","love realisation","sweet epiphany 💖"]],
-            spotlight: [["they are amazing artists","FirstKhaoTung shine","acting legends"],["talent overload","star power","artist goals ✨"]],
-            unspoken: [["tiger's eyes will kill me","Tiger's killer eyes","Lynx can't handle eyes"],["silent tension","gaze game strong","deadly stare 😵"]],
-            symbol: [["TigerLynx jealousy = SandRay vibes","parallels SandRay era","jealousy motif connects"],["symbolic throwback","era connection","perfect parallel 🔄"]],
-            wait: [["can't wait Tuesday","Tuesday ep hype","next ep when??"],["edge of seat","countdown on","hurry Tuesday ⏳"]]
-        };
+<h3>Optional Settings</h3>
+<label><input type="checkbox" id="emojiOption" checked> Add Emoji</label><br>
+<label><input type="checkbox" id="numberOption"> Add Random Number</label><br>
+<label><input type="checkbox" id="hashtagOption"> Add Hashtags</label>
 
-        const emojis = ['🐯','🐱','💕','😍','😂','🔥','🥺','😲','💖','😵','🔄','⏳','❤️','✨','🌟'];
-        const starters = ['OMG','Yasss','Dead','Obsessed','Heart eyes','Screaming'];
-        const ends = [' era!',' forever!',' supremacy!',' vibes!',' moment!'];
+<h3>Optional Custom Paragraph</h3>
+<textarea id="customText" placeholder="If you write here, this will be used instead of auto text..."></textarea>
 
-        function getRandom(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
-        
-        function getSelectedTopics() {
-            return Array.from(document.querySelectorAll('input[type="checkbox"]:checked:not(#addHashtags)'))
-                .map(cb => cb.value).filter(v => topics[v]);
-        }
+<button onclick="generatePost()">Generate Post</button>
+<button onclick="postToX()">🚀 Post to X</button>
+<button onclick="generate100()">Generate 100 Posts</button>
 
-        function generatePost() {
-            const topicsList = getSelectedTopics();
-            const topicKey = topicsList[Math.floor(Math.random() * topicsList.length)];
-            const phrases = topics[topicKey];
-            const main = getRandom(phrases[0]);
-            const vibe = getRandom(phrases[1]);
-            const starter = Math.random() > 0.5 ? getRandom(starters) + ' ' : '';
-            const ender = Math.random() > 0.3 ? getRandom(ends) : '';
-            const emoji1 = getRandom(emojis);
-            const emoji2 = getRandom(emojis);
-            const num = Math.floor(Math.random() * 999) + 1;
-            
-            let post = `${starter}${main} ${vibe} ${emoji1} #${num}${emoji2}${ender}`.trim();
-            
-            if (document.getElementById('addHashtags').checked) {
-                post += ' #FirstKhaoTung #TigerLynx #BLDrama #ThaiBL';
-            }
-            
-            return post.substring(0, 240);
-        }
+<div class="preview" id="preview">Post preview will appear here...</div>
 
-        function postToX() {
-            const post = generatePost();
-            document.getElementById('currentPost').textContent = post;
-            
-            // ONE CLICK → Opens X compose window with post ready
-            const xUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(post)}`;
-            window.open(xUrl, '_blank', 'width=600,height=400');
-        }
+<textarea id="bulkOutput" placeholder="100 posts will appear here..."></textarea>
 
-        function generate100() {
-            const posts = [];
-            for (let i = 0; i < 100; i++) {
-                posts.push(generatePost());
-            }
-            document.getElementById('output').value = posts.join('
+</div>
 
----
+<script>
 
-');
-        }
-    </script>
+const topics = {
+
+romance:[
+"the way tiger looks at lynx I can't",
+"tiger's eyes soften only for lynx",
+"their romantic tension is insane",
+"that stare between tiger and lynx kills me"
+],
+
+cafe:[
+"good boy Jiro for that cup splash",
+"cat chaos in the cafe is my therapy",
+"Jiro owning the cafe like a king",
+"that cat moment made the episode perfect"
+],
+
+chemistry:[
+"can't imagine anyone as TigerLynx except FirstKhaotung",
+"their chemistry feels natural not acting",
+"FirstKhaotung carry every scene",
+"their acting level is insane"
+],
+
+jealousy:[
+"tiger jealous but still caring for lynx",
+"that soft possessiveness scene omg",
+"jealous tiger is my weakness",
+"care hidden inside jealousy hits different"
+],
+
+noticing:[
+"tiger noticed lynx changed his fragrance",
+"he pays attention to small things",
+"that tiny detail tiger caught was everything",
+"love is in noticing small changes"
+],
+
+realisation:[
+"lynx realised tiger loves him how sweet",
+"lynx slowly understanding his own feelings",
+"that realisation scene broke me",
+"lynx finally accepting he loves tiger"
+],
+
+spotlight:[
+"they are truly amazing artists",
+"FirstKhaotung deserve more recognition",
+"their emotional control in scenes wow",
+"actors who understand their characters deeply"
+],
+
+unspoken:[
+"the eyes of tiger will kill me",
+"that silent stare spoke louder than words",
+"unspoken tension between them insane",
+"no dialogue but everything understood"
+],
+
+symbol:[
+"that jealousy scene reminded me of SandRay era",
+"TigerLynx parallel AkkAye vibes",
+"KatBison energy in that moment",
+"Alangaipa emotional depth parallels here"
+],
+
+wait:[
+"can't wait for Tuesday",
+"next episode hurry please",
+"counting days for new episode",
+"the wait is torture but worth it"
+]
+
+};
+
+const emojis=["🐯","🐱","💕","🔥","🥺","✨","❤️","😵"];
+
+function randomItem(arr){
+return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function getSelectedTopic(){
+return document.querySelector('input[name="topic"]:checked').value;
+}
+
+function buildPost(){
+
+let custom=document.getElementById("customText").value.trim();
+let post="";
+
+if(custom){
+post=custom;
+}else{
+let topic=getSelectedTopic();
+post=randomItem(topics[topic]);
+}
+
+if(document.getElementById("emojiOption").checked){
+post+=" "+randomItem(emojis);
+}
+
+if(document.getElementById("numberOption").checked){
+post+=" #"+Math.floor(Math.random()*999);
+}
+
+if(document.getElementById("hashtagOption").checked){
+post+=" #FirstKhaoTung #TigerLynx #CatForCash #ThaiBL";
+}
+
+return post.substring(0,280);
+}
+
+function generatePost(){
+let post=buildPost();
+document.getElementById("preview").textContent=post;
+}
+
+function postToX(){
+let text=buildPost();
+document.getElementById("preview").textContent=text;
+let url="https://x.com/intent/tweet?text="+encodeURIComponent(text);
+window.open(url,"_blank");
+}
+
+function generate100(){
+let posts=[];
+for(let i=0;i<100;i++){
+posts.push(buildPost());
+}
+document.getElementById("bulkOutput").value=posts.join("\n\n");
+}
+
+</script>
+
 </body>
 </html>
