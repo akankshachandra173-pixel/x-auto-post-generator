@@ -1,242 +1,286 @@
-<!DOCTYPE html>
-<html>
+
+    
+   <!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>X Post Generator</title>
+<title>FK X Auto Post Generator</title>
 
 <style>
 body{
-    font-family: Arial;
-    background: linear-gradient(135deg,#1d1f27,#2a2f45);
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#1e1e2f,#141e30);
     color:white;
     padding:20px;
+    max-width:900px;
+    margin:auto;
 }
 
 h1{
     text-align:center;
-    color:#ffccff;
+    margin-bottom:20px;
 }
 
-select, input, textarea, button{
+.container{
+    background:rgba(255,255,255,0.08);
+    padding:20px;
+    border-radius:15px;
+}
+
+.topic-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+}
+
+label{
+    background:rgba(255,255,255,0.1);
+    padding:8px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+input[type="text"]{
     width:100%;
     padding:10px;
     margin-top:10px;
     border-radius:8px;
     border:none;
-    font-size:14px;
 }
 
 button{
-    background:#ff4da6;
-    color:white;
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
     cursor:pointer;
+    background:#00ffb3;
 }
 
 button:hover{
-    background:#ff1a8c;
+    background:#00cc8f;
 }
 
-#output{
+.preview{
     margin-top:20px;
-    background:#111428;
+    background:rgba(0,0,0,0.4);
     padding:15px;
     border-radius:10px;
-    max-height:400px;
-    overflow-y:auto;
     white-space:pre-line;
+    font-family:monospace;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Cat For Cash X Generator</h1>
+<h1>🐯 FirstKhaoTung X Generator</h1>
 
-<label>Select Topic</label>
-<select id="topic">
-<option value="romance">Romance Spark</option>
-<option value="chaos">Cats & Cafe Chaos</option>
-<option value="chemistry">FirstKhaotung Chemistry</option>
-<option value="jealousy">Jealousy & Care</option>
-<option value="realisation">Realisation</option>
-<option value="noticing">Art of Noticing Small Things</option>
-<option value="spotlight">Actor Spotlight</option>
-<option value="unspoken">Unspoken Moments</option>
-<option value="symbol">Symbolisation & Parallel</option>
-<option value="wait">Waiting for Next Episode</option>
-</select>
+<div class="container">
 
-<input type="text" id="emoji" placeholder="Emoji (Optional)">
-<input type="text" id="number" placeholder="Number (Optional)">
-<input type="text" id="hashtag" placeholder="Hashtag (Optional)">
+<h3>Select Topic</h3>
+<div class="topic-grid">
+<label><input type="radio" name="topic" value="romance" checked> Romance Spark</label>
+<label><input type="radio" name="topic" value="cafe"> Cats & Cafe Chaos</label>
+<label><input type="radio" name="topic" value="chemistry"> Chemistry & Acting</label>
+<label><input type="radio" name="topic" value="jealousy"> Jealousy & Care</label>
+<label><input type="radio" name="topic" value="noticing"> Art of Noticing</label>
+<label><input type="radio" name="topic" value="realisation"> Realisation</label>
+<label><input type="radio" name="topic" value="spotlight"> Actor Spotlight</label>
+<label><input type="radio" name="topic" value="unspoken"> Unspoken Moments</label>
+<label><input type="radio" name="topic" value="symbol"> Symbolisation & Parallel</label>
+<label><input type="radio" name="topic" value="wait"> Wait for Next Episode</label>
+</div>
 
-<button onclick="generatePosts()">Generate 100 Posts</button>
+<h3>Optional Emoji (you write)</h3>
+<input type="text" id="emojiInput" placeholder="Example: 🐯🔥🥺">
 
-<div id="output"></div>
+<h3>Optional Hashtags (you write)</h3>
+<input type="text" id="hashtagInput" placeholder="Example: #CatForCashEP4 #FirstKhaotung">
+
+<button onclick="generateAndPost100()">Generate & Post 100 to X</button>
+
+<div class="preview" id="preview"></div>
+
+</div>
 
 <script>
 
-const data = {
+const topics = {
 
-romance: [
-"Tiger’s eyes on Lynx are dangerous",
-"The way Tiger looks at Lynx is unreal",
-"That silent stare between them is electric",
-"Tiger watching Lynx feels illegal",
-"The tension in their gaze is insane",
-"Every glance Tiger gives Lynx hits different",
-"That eye contact was not normal",
-"Lynx melts whenever Tiger looks at him",
-"The chemistry in one stare is wild",
-"That moment felt like a confession without words"
+romance:[
+"The way Tiger looks at Lynx I can't",
+"Tiger's eyes soften only for Lynx",
+"That romantic tension is unreal",
+"Tiger falling harder every episode",
+"The way Lynx smiles at Tiger kills me",
+"Soft glances speak louder than words",
+"They breathe romance",
+"Every stare feels intimate",
+"Tiger protecting Lynx hits different",
+"Romance written in their eyes"
 ],
 
-chaos: [
-"Jiro really said chaos mode activated",
-"That cup splash scene was iconic",
-"The cafe never survives when they’re around",
-"Jiro causing drama again",
-"Cafe peace lasted 2 seconds",
-"That chaos was so unnecessary but cute",
-"The way the cafe turned into a battlefield",
-"Why is Jiro always starting something",
-"Cafe disaster but make it adorable",
-"That whole scene was pure madness"
+cafe:[
+"Good boy Jiro for that cup splash",
+"Cafe chaos is peak entertainment",
+"Jiro owns that cafe honestly",
+"That cat moment stole the episode",
+"Cafe scenes are comfort zone",
+"Jiro causing main character energy",
+"Unexpected chaos but adorable",
+"Coffee and cats perfection",
+"That spill scene was iconic",
+"Cafe energy unmatched"
 ],
 
-chemistry: [
-"FirstKhaotung chemistry is unmatched",
-"No one can replace them",
-"They own every scene together",
-"Their acting feels too real",
-"That emotional depth hits hard",
-"They don’t act, they live it",
-"Their expressions say everything",
-"They understand their characters deeply",
-"The intensity is insane",
-"They deliver every time"
+chemistry:[
+"Can't imagine anyone as TigerLynx except FirstKhaoTung",
+"Their chemistry feels natural not acting",
+"They don't act they become",
+"Every scene feels real",
+"Their eye contact is dangerous",
+"Chemistry on another level",
+"They match each other perfectly",
+"Acting range insane",
+"Emotional delivery unmatched",
+"They elevate every scene"
 ],
 
-jealousy: [
-"Tiger being jealous is my weakness",
-"He tries to hide it but fails",
-"That jealous look was everything",
-"Possessive but soft at the same time",
-"His eyes changed instantly",
-"He acts tough but cares deeply",
-"Jealous Tiger is elite",
-"That silent jealousy hurt so good",
-"He was protecting without saying it",
-"That tension was personal"
+jealousy:[
+"Jealous Tiger is my weakness",
+"Jealous but still caring hurts",
+"That possessive glance omg",
+"Soft jealousy hits different",
+"He hides love inside jealousy",
+"Protective energy unmatched",
+"Jealousy never looked this cute",
+"Caring disguised as anger",
+"That tension scene wow",
+"Jealous but gentle"
 ],
 
-realisation: [
-"Lynx slowly realising his feelings hurts beautifully",
-"That moment he understood everything",
-"The hesitation before acceptance",
-"He knew but didn’t want to admit",
-"That soft realisation scene broke me",
-"His eyes said he finally understood",
-"The shift in his expression was perfect",
-"When love finally makes sense",
-"That quiet acceptance hit deep",
-"He realised and everything changed"
+noticing:[
+"He noticed Lynx changed his fragrance",
+"Love is noticing small changes",
+"That tiny detail meant everything",
+"Tiger pays attention always",
+"Small gestures big feelings",
+"He remembers everything",
+"Noticing is love language",
+"Silent observation powerful",
+"That detail scene was soft",
+"Subtle care moment"
 ],
 
-noticing: [
-"Tiger noticing the smallest changes",
-"He saw what no one else did",
-"That fragrance detail was insane",
-"He pays attention silently",
-"Small things matter to him",
-"He remembers everything about Lynx",
-"That subtle observation was sweet",
-"He notices without making noise",
-"That tiny detail was important",
-"He cares more than he shows"
+realisation:[
+"Lynx slowly understanding his feelings",
+"That realisation scene broke me",
+"Lynx accepting he loves Tiger",
+"The moment it clicked for Lynx",
+"His expression changed everything",
+"Realisation hit softly",
+"That quiet understanding wow",
+"Lynx falling slowly",
+"Love dawning on his face",
+"The shift in his eyes"
 ],
 
-spotlight: [
-"They are truly talented artists",
-"Their performance deserves awards",
-"So much dedication in one scene",
-"They give their all every time",
-"Their hard work is visible",
-"They make every emotion believable",
-"Such powerful performers",
-"They carry the story perfectly",
-"They elevate every scene",
-"Pure acting brilliance"
+spotlight:[
+"They are truly amazing artists",
+"Acting excellence every episode",
+"Emotional control insane",
+"They deserve awards",
+"Talent beyond expectations",
+"Performance perfection",
+"Character depth unmatched",
+"They understand their roles deeply",
+"Pure artistry",
+"Scene stealing performances"
 ],
 
-unspoken: [
-"That silence was louder than words",
-"Their eyes did all the talking",
-"One look changed everything",
-"No dialogue needed",
-"The tension was suffocating",
+unspoken:[
+"That silent stare spoke louder than words",
+"The eyes of Tiger will kill me",
+"No dialogue but everything clear",
+"Unspoken tension insane",
 "That pause meant everything",
-"They communicated without speaking",
-"The air felt heavy between them",
-"That unspoken confession",
-"Silence never felt this intense"
+"Silence screaming love",
+"Just one look destroyed me",
+"Energy without words",
+"Breathing but intense",
+"Stillness full of emotion"
 ],
 
-symbol: [
-"That scene reminded me of AkkAyan energy",
-"It gave SandRay parallel vibes",
-"Some moments feel like KatBison intensity",
-"I see Moonlight Chicken parallels here",
-"The emotional layering feels familiar",
-"It echoes their previous roles beautifully",
-"That dynamic feels symbolic",
-"It mirrors another iconic couple energy",
-"History repeating in a new form",
-"The parallels are undeniable"
+symbol:[
+"That jealousy scene reminded me of SandRay era",
+"TigerLynx parallel AkkAye vibes",
+"KatBison energy in that moment",
+"Alangaipa emotional depth felt here",
+"Parallel storytelling genius",
+"History repeating beautifully",
+"Same soul different story",
+"Symbolism strong in that scene",
+"Echo of previous couples",
+"Layered emotional parallels"
 ],
 
-wait: [
-"Tuesday can’t come fast enough",
-"I need the next episode now",
+wait:[
+"Can't wait for Tuesday",
+"Next episode hurry please",
+"Counting days already",
 "The wait is torture",
-"How are we supposed to survive till next week",
-"I’m counting days already",
-"This cliffhanger is cruel",
-"I’m not patient enough for this",
-"The anticipation is real",
-"Next episode better come quickly",
-"I’m emotionally unprepared for the wait"
+"Preview got me screaming",
+"Need next episode now",
+"Time moving too slow",
+"Anticipation killing me",
+"Episode cliffhanger insane",
+"Tuesday come faster"
 ]
 
 };
 
-function generatePosts(){
-
-let topic = document.getElementById("topic").value;
-let emoji = document.getElementById("emoji").value;
-let number = document.getElementById("number").value;
-let hashtag = document.getElementById("hashtag").value;
-
-let sentences = data[topic];
-let output = document.getElementById("output");
-output.innerHTML = "";
-
-let uniquePosts = new Set();
-
-while(uniquePosts.size < 100){
-    let randomSentence = sentences[Math.floor(Math.random() * sentences.length)];
-    let post = randomSentence;
-
-    if(emoji) post += " " + emoji;
-    if(number) post += " " + number;
-    if(hashtag) post += " " + hashtag;
-
-    uniquePosts.add(post);
+function getSelectedTopic(){
+return document.querySelector('input[name="topic"]:checked').value;
 }
 
-uniquePosts.forEach(p=>{
-    output.innerHTML += p + "\n\n";
-});
+function shuffle(array){
+for(let i=array.length-1;i>0;i--){
+const j=Math.floor(Math.random()*(i+1));
+[array[i],array[j]]=[array[j],array[i]];
+}
+return array;
+}
+
+function generateAndPost100(){
+
+let topic=getSelectedTopic();
+let basePosts=[...topics[topic]];
+shuffle(basePosts);
+
+let emoji=document.getElementById("emojiInput").value.trim();
+let hashtag=document.getElementById("hashtagInput").value.trim();
+
+let previewText="";
+
+for(let i=0;i<basePosts.length;i++){
+
+let post=basePosts[i];
+
+if(emoji) post+=" "+emoji;
+if(hashtag) post+=" "+hashtag;
+
+previewText+=post+"\n\n";
+
+let url="https://x.com/intent/tweet?text="+encodeURIComponent(post);
+window.open(url,"_blank");
+}
+
+document.getElementById("preview").textContent=previewText;
 
 }
 
@@ -244,3 +288,4 @@ uniquePosts.forEach(p=>{
 
 </body>
 </html>
+
